@@ -43,6 +43,8 @@ import { ReviewsModal } from './components/ReviewsModal';
 import { AdminDashboard } from './components/AdminDashboard';
 import { AuthModal } from './components/AuthModal';
 
+import { auth, signOut, onAuthStateChanged } from './firebase';
+
 export default function App() {
   // User Authentication State
   const [userProfile, setUserProfile] = useState<UserProfile | null>(() => {
@@ -54,14 +56,31 @@ export default function App() {
     }
   });
 
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
+      if (firebaseUser) {
+        const profile: UserProfile = {
+          fullName: firebaseUser.displayName || firebaseUser.email?.split('@')[0] || 'Customer',
+          phone: firebaseUser.phoneNumber || '+91 9876543210',
+          email: firebaseUser.email || undefined,
+          isLoggedIn: true,
+          loginTime: new Date().toISOString(),
+        };
+        setUserProfile(profile);
+        localStorage.setItem('smart_food_user', JSON.stringify(profile));
+      }
+    });
+    return () => unsubscribe();
+  }, []);
+
   const [isAuthModalOpen, setIsAuthModalOpen] = useState<boolean>(() => {
     try {
       const saved = localStorage.getItem('smart_food_user');
-      if (!saved) return true;
+      if (!saved) return false; // don't block user initially if returning, or open if needed
       const parsed = JSON.parse(saved);
       return !parsed || !parsed.isLoggedIn;
     } catch (e) {
-      return true;
+      return false;
     }
   });
 
@@ -126,6 +145,11 @@ export default function App() {
   };
 
   const handleLogout = () => {
+    try {
+      signOut(auth);
+    } catch (e) {
+      console.error(e);
+    }
     localStorage.removeItem('smart_food_user');
     setUserProfile(null);
     setIsAuthModalOpen(true);

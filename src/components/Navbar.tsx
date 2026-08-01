@@ -183,9 +183,9 @@ export const Navbar: React.FC<NavbarProps> = ({
                   <div className="absolute right-0 mt-2 w-56 bg-white rounded-2xl shadow-xl border border-slate-100 p-2 z-50 animate-in fade-in slide-in-from-top-2">
                     <div className="px-3 py-2 border-b border-slate-100">
                       <p className="font-bold text-slate-900 text-xs">{userProfile.fullName}</p>
-                      <p className="text-[11px] text-slate-500 font-mono mt-0.5">+91 {userProfile.phone}</p>
+                      <p className="text-[11px] text-slate-500 font-mono mt-0.5">{userProfile.email || userProfile.phone}</p>
                       <span className="inline-block mt-1 text-[9px] bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded-full font-bold">
-                        Verified via OTP
+                        Firebase Auth Verified
                       </span>
                     </div>
                     <button
@@ -196,7 +196,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                       className="w-full flex items-center gap-2 px-3 py-2 mt-1 text-xs text-rose-600 hover:bg-rose-50 font-bold rounded-xl transition-colors cursor-pointer"
                     >
                       <LogOut className="w-3.5 h-3.5" />
-                      <span>Logout / Switch Phone</span>
+                      <span>Logout Account</span>
                     </button>
                   </div>
                 )}

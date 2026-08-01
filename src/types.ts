@@ -143,6 +143,7 @@ export interface AiRecommendation {
 export interface UserProfile {
   fullName: string;
   phone: string;
+  email?: string;
   isLoggedIn: boolean;
   loginTime?: string;
 }
