@@ -1,0 +1,6 @@
+{
+  "name": "LY Smart Food Delivery",
+  "description": "LY Smart Food Delivery with instant OTP login, Cash/UPI on Delivery checkout, real-time rider tracking, fast food combos, reviews, and admin management.",
+  "requestFramePermissions": ["geolocation", "notifications"],
+  "majorCapabilities": []
+}
